@@ -1,0 +1,82 @@
+<html>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+        <div>
+        <input type="text" id="inp" placeholder="Type something..." />
+        <button onclick="handle('add')">Add Todo</button>
+        <button onclick="handle('deletefirst')">Delete First Todo</button>
+        <button onclick="handle('deletelast')">Delete Last Todo</button>
+        </div>
+    </div>
+    <div id="todos">
+        
+    </div>
+</body>
+<script>
+    let todos = [];
+
+     document.querySelector("#inp").addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            handle('add');
+        }
+    });
+
+    function handle(action) {
+        const input = document.querySelector("#inp")
+        const value = input.value.trim();
+        
+        switch(action) {
+            case 'add':
+            if (value !== ''){
+                todos.push({ title: value});
+                input.value = '';
+            } else{
+                alert("You Have To Enter Something To Add :)");
+            }
+            break;
+
+            case 'deletelast':
+            if (todos.length > 0){
+                todos.pop();
+            } else{
+                alert("There Are No Todo's To Delete :(");
+            }
+            break;
+
+            case 'deletefirst': 
+            if (todos.length > 0){
+                todos.shift();
+            } else {
+                alert("There Are No Todo's To Delete :(");
+            }
+            break;
+        }
+        render();
+    }
+
+    function render(){
+        const todosContainer = document.querySelector("#todos")
+        todosContainer.innerHTML = ''
+
+        todos.forEach((todo, index) => {
+            const div = document.createElement("div");
+            const h4 = document.createElement("h4");
+            const button = document.createElement("button");
+
+            h4.innerHTML = `${index + 1}. ${todo.title}`;
+            button.innerHTML = "delete";
+            button.onclick = () => deletebyindex(index);
+
+            div.appendChild(h4);
+            div.appendChild(button);
+            todosContainer.appendChild(div);
+        });
+    }
+
+    function deletebyindex(index){
+        todos.splice(index,1);
+        render();
+    }
+
+</script>
+</html>

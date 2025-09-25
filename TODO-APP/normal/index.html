@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Todo List</h1>
+    <div id="todos">
+        <input type="text" id="inp" placeholder="Type something..." />
+        <button onclick="AddTodo()">Click Me</button>
+        <div id="todo-1">
+            <h4>1. Take class</h4>
+            <button onclick="deleteTodo(1)">delete</button>
+        </div>
+        <div id="todo-2">
+            <h4>2. Go out to eat</h4>
+            <button onclick="deleteTodo(2)">delete</button>
+        </div>
+    </div>
+</body>
+<script>
+    let currindex = 3;
+    function AddTodo() {
+        const input = document.getElementById("inp");
+        const todoText = input.value.trim();
+
+        if (todoText === '') {
+            alert('Please enter a todo item.');
+            return;
+        }
+
+        const parent = document.getElementById("todos");
+        const newtodo = document.createElement("div");
+        newtodo.setAttribute("id",'todo-' + currindex);
+
+        const newHeading = document.createElement("h4");
+        newHeading.textContent = currindex + ". " + todoText;
+
+        const newButton = document.createElement("button")
+        newButton.textContent = "Delete"
+        newButton.setAttribute("onclick", "deleteTodo(" + currindex + ")");
+
+        newtodo.appendChild(newHeading);
+        newtodo.appendChild(newButton);
+        parent.appendChild(newtodo);
+        currindex++;
+        input.value = '';
+    }
+    
+    function deleteTodo(index) {
+        const element = document.getElementById("todo-" + index);
+        element.parentNode.removeChild(element);
+    }
+</script>
+</html>
